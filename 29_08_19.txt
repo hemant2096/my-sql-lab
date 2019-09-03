@@ -1,0 +1,583 @@
+mysql> CREATE TABLE LOCATION
+    -> ( LOCID INT ,CITY VARCHAR(20)  ,ADDR VARCHAR(20)   );
+Query OK, 0 rows affected (0.31 sec)
+
+
+
+
+
+mysql>  INSERT INTO LOCATION VALUES
+    ->  (1,'MUMBAI',' MBP')
+    ->  , (2,'BANGLORE',' ITPL') ,
+    ->   (3,'PUNE',' HINJEWADI') ,
+    ->   (4,'GURGAON',' DLF2');
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT* FROM LOCATION;
++-------+----------+------------+
+| LOCID | CITY     | ADDR       |
++-------+----------+------------+
+|     1 | MUMBAI   |  MBP       |
+|     2 | BANGLORE |  ITPL      |
+|     3 | PUNE     |  HINJEWADI |
+|     4 | GURGAON  |  DLF2      |
++-------+----------+------------+
+4 rows in set (0.00 sec)
+
+
+
+mysql> ALTER TABLE LOCATION MODIFY LOCID INT PRIMARY KEY;
+Query OK, 4 rows affected (0.22 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE LOCATION;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| LOCID | int(11)     | NO   | PRI | NULL    |       |
+| CITY  | varchar(20) | YES  |     | NULL    |       |
+| ADDR  | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql>
+
+
+
+
+
+
+mysql>
+mysql> CREATE TABLE DEPT
+    -> ( DEPTID INT PRIMARY KEY, DNAME VARCHAR(20),LOCID INT, FOREIGN KEY (LOCID)
+    ->  REFERENCES LOCATION(LOCID));
+Query OK, 0 rows affected (0.16 sec)
+
+
+mysql> INSERT INTO DEPT VALUES
+    ->
+    ->    ( 101,'SALES',1),
+    ->    ( 102,'HR',3),
+    ->    ( 103,'FINANCE',2),
+    ->    ( 104,'MKTG',3),(105,'OPS',4),(106,'IT',4)
+    -> ;
+Query OK, 6 rows affected (0.02 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+
+
+
+mysql> SELECT * FROM DEPT;
++--------+-----------+-------+
+| DEPTID | DNAME     | LOCID |
++--------+-----------+-------+
+|    101 | SALES     |     1 |
+|    102 | HR        |     3 |
+|    103 | FINANCE   |     2 |
+|    104 | MKTG      |     3 |
+|    105 | OPS       |     4 |
+|    106 | IT        |     4 |
+|    107 | TABLEDESK |  NULL |
++--------+-----------+-------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM LOCATION;
++-------+-----------+------------+
+| LOCID | CITY      | ADDR       |
++-------+-----------+------------+
+|     1 | MUMBAI    |  MBP       |
+|     2 | BANGLORE  |  ITPL      |
+|     3 | PUNE      |  HINJEWADI |
+|     4 | GURGAON   |  DLF2      |
+|     5 | HYDERABAD | HITECHCITY |
++-------+-----------+------------+
+5 rows in set (0.00 sec)
+
+
+mysql> SELECT DNAME,CITY,ADDR
+    -> FROM LOCATION LEFT OUTER JOIN DEPT
+    -> ON DEPT.LOCID=LOCATION.LOCID;
++---------+-----------+------------+
+| DNAME   | CITY      | ADDR       |
++---------+-----------+------------+
+| SALES   | MUMBAI    |  MBP       |
+| FINANCE | BANGLORE  |  ITPL      |
+| HR      | PUNE      |  HINJEWADI |
+| MKTG    | PUNE      |  HINJEWADI |
+| OPS     | GURGAON   |  DLF2      |
+| IT      | GURGAON   |  DLF2      |
+| NULL    | HYDERABAD | HITECHCITY |
++---------+-----------+------------+
+7 rows in set (0.02 sec)
+
+
+
+mysql> SELECT DNAME,CITY,ADDR
+    -> FROM DEPT LEFT OUTER JOIN LOCATION
+    -> ON DEPT.LOCID=LOCATION.LOCID;
++-----------+----------+------------+
+| DNAME     | CITY     | ADDR       |
++-----------+----------+------------+
+| SALES     | MUMBAI   |  MBP       |
+| HR        | PUNE     |  HINJEWADI |
+| FINANCE   | BANGLORE |  ITPL      |
+| MKTG      | PUNE     |  HINJEWADI |
+| OPS       | GURGAON  |  DLF2      |
+| IT        | GURGAON  |  DLF2      |
+| TABLEDESK | NULL     | NULL       |
++-----------+----------+------------+
+7 rows in set (0.00 sec)
+
+
+mysql> SELECT DNAME,CITY,ADDR
+    -> FROM DEPT LEFT OUTER JOIN LOCATION
+    ->  ON DEPT.LOCID=LOCATION.LOCID
+    -> WHERE ADDR IS NULL;
++-----------+------+------+
+| DNAME     | CITY | ADDR |
++-----------+------+------+
+| TABLEDESK | NULL | NULL |
++-----------+------+------+
+1 row in set (0.00 sec)
+
+
+
+
+===========================================================================
+
+
+mysql> INSERT INTO EMP VALUES
+    -> (1002,'SHUBHAM','AKKA',105, 1003),
+    -> (1003,'HEMANT','AKKA',102, 1001),
+    -> (1004,'PRASHANT','AKKA',101,1002),
+    -> (1006,'ABHISHEK','AKKA',105,1001),
+    -> (1007,'SHAHSANK','AKKA',103,1005);
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM EMP;
++-------+----------+-------+--------+-------+
+| EMPID | FNAME    | LNAME | DEPTID | MGRID |
++-------+----------+-------+--------+-------+
+|  1001 | ASHWIN   | AKKA  |    105 |  NULL |
+|  1002 | SHUBHAM  | AKKA  |    105 |  1003 |
+|  1003 | HEMANT   | AKKA  |    102 |  1001 |
+|  1004 | PRASHANT | AKKA  |    101 |  1002 |
+|  1006 | ABHISHEK | AKKA  |    105 |  1001 |
+|  1007 | SHAHSANK | AKKA  |    103 |  1005 |
++-------+----------+-------+--------+-------+
+6 rows in set (0.00 sec)
+
+
+mysql> DESC EMP;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| EMPID  | int(11)     | NO   | PRI | NULL    |       |
+| FNAME  | varchar(20) | YES  |     | NULL    |       |
+| LNAME  | varchar(20) | YES  |     | NULL    |       |
+| DEPTID | int(11)     | YES  |     | NULL    |       |
+| MGRID  | int(11)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+
+
+
+mysql> ALTER TABLE EMP ADD COLUMN SALARY INT;
+Query OK, 7 rows affected (0.19 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM EMP;
++-------+----------+-------+--------+-------+--------+
+| EMPID | FNAME    | LNAME | DEPTID | MGRID | SALARY |
++-------+----------+-------+--------+-------+--------+
+|  1001 | ASHWIN   | AKKA  |    105 |  NULL |   NULL |
+|  1002 | SHUBHAM  | AKKA  |    105 |  1003 |   NULL |
+|  1003 | HEMANT   | AKKA  |    102 |  1001 |   NULL |
+|  1004 | PRASHANT | AKKA  |    101 |  1002 |   NULL |
+|  1006 | ABHISHEK | AKKA  |    105 |  1001 |   NULL |
+|  1007 | SHAHSANK | AKKA  |    103 |  1005 |   NULL |
+|  1008 | AMIT     | AKKA  |    107 |  1003 |   NULL |
++-------+----------+-------+--------+-------+--------+
+7 rows in set (0.00 sec)
+
+
+mysql> UPDATE EMP
+    -> SET SALARY=100 WHERE EMPID=1001;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMP
+    -> SET SALARY=200 WHERE EMPID=1002)
+    -> ;
+
+
+
+
+    -> SET SALARY=200 WHERE EMPID=1002;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMP
+    -> SET SALARY=100 WHERE EMPID=1003;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMP
+    -> SET SALARY=300 WHERE EMPID=1004;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMP
+    -> SET SALARY=500 WHERE EMPID=1007;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMP
+    -> SET SALARY=1000 WHERE EMPID=1006;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMP
+    -> SET SALARY=500 WHERE EMPID=1008;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMP;
++-------+----------+-------+--------+-------+--------+
+| EMPID | FNAME    | LNAME | DEPTID | MGRID | SALARY |
++-------+----------+-------+--------+-------+--------+
+|  1001 | ASHWIN   | AKKA  |    105 |  NULL |    100 |
+|  1002 | SHUBHAM  | AKKA  |    105 |  1003 |    200 |
+|  1003 | HEMANT   | AKKA  |    102 |  1001 |    100 |
+|  1004 | PRASHANT | AKKA  |    101 |  1002 |    300 |
+|  1006 | ABHISHEK | AKKA  |    105 |  1001 |   1000 |
+|  1007 | SHAHSANK | AKKA  |    103 |  1005 |    500 |
+|  1008 | AMIT     | AKKA  |    107 |  1003 |    500 |
++-------+----------+-------+--------+-------+--------+
+7 rows in set (0.00 sec)
+
+
+
+
+mysql> ALTER TABLE EMP ADD CONSTRAINT FOREIGN KEY(DEPTID) REFERENCES DEPT(DEPTID);
+Query OK, 7 rows affected (0.27 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> DESC EMP;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| EMPID  | int(11)     | NO   | PRI | NULL    |       |
+| FNAME  | varchar(20) | YES  |     | NULL    |       |
+| LNAME  | varchar(20) | YES  |     | NULL    |       |
+| DEPTID | int(11)     | YES  | MUL | NULL    |       |
+| MGRID  | int(11)     | YES  |     | NULL    |       |
+| SALARY | int(11)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+
+===============================
+
+mysql> create table workinghrs
+    -> (name varchar(20),workinghrs int );
+Query OK, 0 rows affected (0.14 sec)
+
+
+
+mysql> insert into workinghrs values
+    -> ('ashwin',20,1);
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  insert into workinghrs values
+    ->  ('ashwin',20,1),('ashwin',30,1),('ashwin',50,1),('shubham',20,2),('shubham',40,2),('shubham',50,2),('hemant'
+    -> ;
+Query OK, 9 rows affected (0.03 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> select * from workinghrs;
++---------+------------+------+
+| name    | workinghrs | id   |
++---------+------------+------+
+| ashwin  |         20 |    1 |
+| ashwin  |         20 |    1 |
+| ashwin  |         30 |    1 |
+| ashwin  |         50 |    1 |
+| shubham |         20 |    2 |
+| shubham |         40 |    2 |
+| shubham |         50 |    2 |
+| hemant  |         20 |    3 |
+| hemant  |         50 |    3 |
+| hemant  |         60 |    3 |
++---------+------------+------+
+
+
+
+mysql>   select name,workinghrs,count(*) as count  from workinghrs
+    -> group by id
+    -> ;
++---------+------------+-------+
+| name    | workinghrs | count |
++---------+------------+-------+
+| ashwin  |         20 |     4 |
+| shubham |         20 |     3 |
+| hemant  |         20 |     3 |
++---------+------------+-------+
+3 rows in set (0.03 sec)
+
+mysql>   select name,workinghrs,count(*) as count  from workinghrs
+    -> group by workinghrs;
++---------+------------+-------+
+| name    | workinghrs | count |
++---------+------------+-------+
+| ashwin  |         20 |     4 |
+| ashwin  |         30 |     1 |
+| shubham |         40 |     1 |
+| ashwin  |         50 |     3 |
+| hemant  |         60 |     1 |
++---------+------------+-------+
+5 rows in set (0.00 sec)
+
+
+mysql>  select name,avg(workinghrs) as avg
+    -> from workinghrs
+    -> group by id;
++---------+---------+
+| name    | avg     |
++---------+---------+
+| ashwin  | 30.0000 |
+| shubham | 36.6667 |
+| hemant  | 43.3333 |
++---------+---------+
+
+
+mysql> select name,avg(workinghrs) as avg
+    -> from workinghrs
+    -> having avg(workinghrs)>30;
++--------+---------+
+| name   | avg     |
++--------+---------+
+| ashwin | 36.0000 |
++--------+---------+
+1 row in set (0.00 sec)
+
+
+
+==================================================================
+
+
+mysql> select * from emp;
++-------+----------+-------+--------+-------+--------+
+| EMPID | FNAME    | LNAME | DEPTID | MGRID | SALARY |
++-------+----------+-------+--------+-------+--------+
+|  1001 | ASHWIN   | AKKA  |    105 |  NULL |    100 |
+|  1002 | SHUBHAM  | AKKA  |    105 |  1003 |    200 |
+|  1003 | HEMANT   | AKKA  |    102 |  1001 |    100 |
+|  1004 | PRASHANT | AKKA  |    101 |  1002 |    300 |
+|  1006 | ABHISHEK | AKKA  |    105 |  1001 |   1000 |
+|  1007 | SHAHSANK | AKKA  |    103 |  1005 |    500 |
+|  1008 | AMIT     | AKKA  |    107 |  1003 |    500 |
++-------+----------+-------+--------+-------+--------+
+7 rows in set (0.00 sec)
+
+mysql> select sum(salary)
+    -> from emp;
++-------------+
+| sum(salary) |
++-------------+
+|        2700 |
++-------------+
+1 row in set (0.00 sec)
+
+
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++-------+----------+-------+--------+-------+--------+
+| EMPID | FNAME    | LNAME | DEPTID | MGRID | SALARY |
++-------+----------+-------+--------+-------+--------+
+|  1001 | ASHWIN   | AKKA  |    105 |  NULL |    100 |
+|  1002 | SHUBHAM  | AKKA  |    105 |  1003 |    200 |
+|  1003 | HEMANT   | AKKA  |    102 |  1001 |    100 |
+|  1004 | PRASHANT | AKKA  |    101 |  1002 |    300 |
+|  1006 | ABHISHEK | AKKA  |    105 |  1001 |   1000 |
+|  1007 | SHAHSANK | AKKA  |    103 |  1005 |    500 |
+|  1008 | AMIT     | AKKA  |    107 |  1003 |   -500 |
++-------+----------+-------+--------+-------+--------+
+7 rows in set (0.00 sec)
+
+mysql> select abs(price)
+    -> from emp;
+ERROR 1054 (42S22): Unknown column 'price' in 'field list'
+mysql> select abs(salary)
+    -> from emp;
++-------------+
+| abs(salary) |
++-------------+
+|         100 |
+|         200 |
+|         100 |
+|         300 |
+|        1000 |
+|         500 |
+|         500 |
++-------------+
+7 rows in set (0.00 sec)
+
+
+-------------------------------------------------------------------
+mysql> select sum(salary)
+    -> from emp;
++-------------+
+| sum(salary) |
++-------------+
+|        1700 |
++-------------+
+1 row in set (0.00 sec)
+------------------------------------------------------
+mysql> select sum(abs(salary))
+    -> from emp;
++------------------+
+| sum(abs(salary)) |
++------------------+
+|             2700 |
++------------------+
+1 row in set (0.00 sec)
+
+
+
+mysql> select avg(salary) as avg ,sum(salary) as total,min(salary)as min from emp;
++----------+-------+------+
+| avg      | total | min  |
++----------+-------+------+
+| 242.8571 |  1700 | -500 |
++----------+-------+------+
+1 row in set (0.00 sec)
+
+
+===============================================================================
+
+
+
+mysql>  select concat(fname,' ',lname) as name ,dname,city from location inner join dept  on location.locid=dept.locid
+    ->  inner join emp on dept.deptid=emp.deptid;
++---------------+---------+----------+
+| name          | dname   | city     |
++---------------+---------+----------+
+| PRASHANT AKKA | SALES   | MUMBAI   |
+| SHAHSANK AKKA | FINANCE | BANGLORE |
+| HEMANT AKKA   | HR      | PUNE     |
+| ASHWIN AKKA   | OPS     | GURGAON  |
+| SHUBHAM AKKA  | OPS     | GURGAON  |
+| ABHISHEK AKKA | OPS     | GURGAON  |
++---------------+---------+----------+
+6 rows in set (0.00 sec)
+
+
+
+mysql> select * from location;
++-------+-----------+------------+
+| LOCID | CITY      | ADDR       |
++-------+-----------+------------+
+|     1 | MUMBAI    |  MBP       |
+|     2 | BANGLORE  |  ITPL      |
+|     3 | PUNE      |  HINJEWADI |
+|     4 | GURGAON   |  DLF2      |
+|     5 | HYDERABAD | HITECHCITY |
++-------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+-----------+-------+
+| DEPTID | DNAME     | LOCID |
++--------+-----------+-------+
+|    101 | SALES     |     1 |
+|    102 | HR        |     3 |
+|    103 | FINANCE   |     2 |
+|    104 | MKTG      |     3 |
+|    105 | OPS       |     4 |
+|    106 | IT        |     4 |
+|    107 | TABLEDESK |  NULL |
++--------+-----------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+----------+-------+--------+-------+--------+
+| EMPID | FNAME    | LNAME | DEPTID | MGRID | SALARY |
++-------+----------+-------+--------+-------+--------+
+|  1001 | ASHWIN   | AKKA  |    105 |  NULL |    100 |
+|  1002 | SHUBHAM  | AKKA  |    105 |  1003 |    200 |
+|  1003 | HEMANT   | AKKA  |    102 |  1001 |    100 |
+|  1004 | PRASHANT | AKKA  |    101 |  1002 |    300 |
+|  1006 | ABHISHEK | AKKA  |    105 |  1001 |   1000 |
+|  1007 | SHAHSANK | AKKA  |    103 |  1005 |    500 |
+|  1008 | AMIT     | AKKA  |    107 |  1003 |   -500 |
++-------+----------+-------+--------+-------+--------+
+7 rows in set (0.00 sec)
+
+mysql>
+
+
+======================================================
+
+
+mysql> select * from emp;
++-------+----------+-------+--------+-------+--------+
+| EMPID | FNAME    | LNAME | DEPTID | MGRID | SALARY |
++-------+----------+-------+--------+-------+--------+
+|  1001 | ASHWIN   | AKKA  |    105 |  NULL |    100 |
+|  1002 | SHUBHAM  | AKKA  |    105 |  1003 |    200 |
+|  1003 | HEMANT   | AKKA  |    102 |  1001 |    100 |
+|  1004 | PRASHANT | AKKA  |    101 |  1002 |    300 |
+|  1006 | ABHISHEK | AKKA  |    105 |  1001 |   1000 |
+|  1007 | SHAHSANK | AKKA  |    103 |  1005 |    500 |
+|  1008 | AMIT     | AKKA  |    107 |  1003 |   -500 |
++-------+----------+-------+--------+-------+--------+
+7 rows in set (0.00 sec)
+
+
+mysql> select concat(fname,' ',lname) as empname from emp
+    -> where mgrid=(select mgrid from emp where fname='shubham' and lname ='akka');
++--------------+
+| empname      |
++--------------+
+| SHUBHAM AKKA |
+| AMIT AKKA    |
++--------------+
+2 rows in set (0.00 sec)
+
+mysql> select concat(fname,' ',lname) as empname from emp
+    -> where mgrid=(select mgrid from emp where fname='shubham' and lname ='akka')
+    -> and not fname='shubham';
++-----------+
+| empname   |
++-----------+
+| AMIT AKKA |
++-----------+
+1 row in set (0.00 sec)
+
+
+
+--------------------------------------------------------
+
+
+mysql>  select concat(fname,' ',lname)as name,dname,city,addr
+    ->  from location inner join dept
+    -> on location.locid=dept.locid
+    -> inner join emp
+    -> on emp.deptid=dept.deptid
+    ->  where city='gurgaon';
++---------------+-------+---------+-------+
+| name          | dname | city    | addr  |
++---------------+-------+---------+-------+
+| ASHWIN AKKA   | OPS   | GURGAON |  DLF2 |
+| SHUBHAM AKKA  | OPS   | GURGAON |  DLF2 |
+| ABHISHEK AKKA | OPS   | GURGAON |  DLF2 |
++---------------+-------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql>
+

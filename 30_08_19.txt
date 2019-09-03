@@ -1,0 +1,77 @@
+mysql> select concat(fname,' ',lname) as name ,salary,commision
+    -> from
+    -> (select fname,lname,salary,salary* .10 as commision from emp)e;
++---------------+--------+-----------+
+| name          | salary | commision |
++---------------+--------+-----------+
+| ASHWIN AKKA   |    100 |     10.00 |
+| SHUBHAM AKKA  |    200 |     20.00 |
+| HEMANT AKKA   |    100 |     10.00 |
+| PRASHANT AKKA |    300 |     30.00 |
+| ABHISHEK AKKA |   1000 |    100.00 |
+| SHAHSANK AKKA |    500 |     50.00 |
+| AMIT AKKA     |   -500 |    -50.00 |
++---------------+--------+-----------+
+7 rows in set (0.00 sec)
+
+mysql>
+
+mysql>  select concat(e1.fname,' ',e1.lname) as empname,e1.deptid,e1.salary,e2.avgsalary
+    ->  from emp e1
+    ->  inner join
+    ->  (select deptid,avg(salary) as avgsalary
+    ->  from emp
+    ->  group by deptid)e2
+    ->  on e1.deptid=e2.deptid
+    ->  and e1.salary>e2.avgsalary;
++---------------+--------+--------+-----------+
+| empname       | deptid | salary | avgsalary |
++---------------+--------+--------+-----------+
+| ABHISHEK AKKA |    105 |   1000 |  433.3333 |
++---------------+--------+--------+-----------+
+1 row in set (0.00 sec)
+
+
+
+mysql>  select concat(e1.fname,' ',e1.lname) as empname,e1.deptid,e1.salary,e2.avgsalary
+    ->  from emp e1
+    ->  inner join
+    ->  (select deptid,avg(salary) as avgsalary
+    ->  from emp
+    ->  group by deptid)e2
+    ->  on e1.deptid=e2.deptid
+    ->  and e1.salary>=e2.avgsalary;
++---------------+--------+--------+-----------+
+| empname       | deptid | salary | avgsalary |
++---------------+--------+--------+-----------+
+| PRASHANT AKKA |    101 |    300 |  300.0000 |
+| HEMANT AKKA   |    102 |    100 |  100.0000 |
+| SHAHSANK AKKA |    103 |    500 |  500.0000 |
+| ABHISHEK AKKA |    105 |   1000 |  433.3333 |
+| AMIT AKKA     |    107 |   -500 | -500.0000 |
++---------------+--------+--------+-----------+
+5 rows in set (0.00 sec)
+
+
+mysql> select deptid,fname from emp
+    -> union all
+    -> select deptid,dname
+    -> from dept;
++--------+-----------+
+| deptid | fname     |
++--------+-----------+
+|    105 | ASHWIN    |
+|    105 | SHUBHAM   |
+|    102 | HEMANT    |
+|    101 | PRASHANT  |
+|    105 | ABHISHEK  |
+|    103 | SHAHSANK  |
+|    107 | AMIT      |
+|    101 | SALES     |
+|    102 | HR        |
+|    103 | FINANCE   |
+|    104 | MKTG      |
+|    105 | OPS       |
+|    106 | IT        |
+|    107 | TABLEDESK |
++--------+-----------+

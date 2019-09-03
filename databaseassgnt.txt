@@ -1,0 +1,400 @@
+Q.1
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'SALESPEOPLE'
+    -> ;
++-------------+
+| COLUMN_NAME |
++-------------+
+| snum        |
+| sname       |
+| city        |
+| comm        |
++-------------+
+
+
+-------------------------------------------------------------------------------
+
+Q.2
+mysql> SELECT CNAME
+    -> FROM CUSTOMERS
+    -> WHERE RATING=100;
++---------+
+| CNAME   |
++---------+
+| HOFFMAN |
+| CLEMENS |
+| PEREIRA |
++---------+
+
+-------------------------------------------
+Q3
+
+mysql> SELECT CITY FROM CUSTOMERS WHERE CITY=NULL;
+Empty set (0.00 sec)
+
+mysql>
+---------------------------------------------
+Q5
+
+mysql> SELECT CNUM, CNAME,CITY
+    -> FROM CUSTOMERS
+    -> ORDER BY CNUM DESC;
++------+----------+----------+
+| CNUM | CNAME    | CITY     |
++------+----------+----------+
+| 2008 | CISNEROS | SAN JOSE |
+| 2007 | PEREIRA  | ROME     |
+| 2006 | CLEMENS  | LONDON   |
+| 2004 | GRASS    | BERLIN   |
+| 2003 | LIU      | SAN JOSE |
+| 2002 | GIOVANNI | ROME     |
+| 2001 | HOFFMAN  | LONDON   |
++------+----------+----------+
+7 rows in set (0.00 sec)
+
+-----------------------------------------------------------------------------------------------
+ Q.13
+mysql> select *
+    -> from customers
+    -> WHERE CITY LIKE 'SAN JOSE'AND RATING>200;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2008 | CISNEROS | SAN JOSE |    300 | 1007 |
++------+----------+----------+--------+------+
+1 row in set (0.00 sec)
+-------------------------------------------------------------------------------------------------------------------
+
+Q.14
+
+mysql>
+mysql> SELECT SNAME,COMM
+    -> FROM  SALESPEOPLE
+    -> WHERE CITY  =  'LONDON ';
++--------+------+
+| SNAME  | COMM |
++--------+------+
+| PEEL   | 0.12 |
+| MOTIKA | 0.11 |
+| FRAN   | 0.26 |
++--------+------+
+3 rows in set (0.00 sec)
+
+------------------------------------------------------------------------------------
+Q.15
+mysql> SELECT *
+    -> FROM CUSTOMERS
+    -> WHERE SNUM=
+    -> (SELECT SNUM
+    -> FROM SALESPEOPLE
+    -> WHERE (SNAME='MOTIKA')
+    -> );
++------+---------+------+--------+------+
+| cnum | cname   | city | rating | snum |
++------+---------+------+--------+------+
+| 2007 | PEREIRA | ROME |    100 | 1004 |
++------+---------+------+--------+------+
+1 row in set (0.00 sec)
+-------------------------------------------------------------------------------
+q.16
+mysql> select c.cname,o.odate
+    -> from customers c inner join orders o
+    -> on c.cnum=o.cnum
+    -> where o.odate like '1996-03-10';
++----------+------------+
+| cname    | odate      |
++----------+------------+
+| HOFFMAN  | 1996-03-10 |
+| LIU      | 1996-03-10 |
+| PEREIRA  | 1996-03-10 |
+| CISNEROS | 1996-03-10 |
+| CISNEROS | 1996-03-10 |
++----------+------------+
+5 rows in set (0.00 sec)
+
+--------------------------------------------------------------------------
+Q.26
+
+
+
+mysql> SELECT CNAME
+    -> FROM CUSTOMERS
+    -> WHERE RATING>200;
++----------+
+| CNAME    |
++----------+
+| GRASS    |
+| CISNEROS |
++----------+
+2 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------------
+Q.31
+
+mysql>
+mysql> SELECT  SNAME
+    -> FROM SALESPEOPLE
+    -> WHERE SNAME LIKE 'P__L';
++-------+
+| SNAME |
++-------+
+| PEEL  |
++-------+
+1 row in set (0.00 sec)
+
+mysql>
+
+--------------------------------------------------------------------------------------
+Q.34
+
+
+mysql>
+mysql> SELECT SNUM,SNAME,COMM AS COMMISION,CITY
+    -> FROM SALESPEOPLE;
++------+---------+-----------+-----------+
+| SNUM | SNAME   | COMMISION | CITY      |
++------+---------+-----------+-----------+
+| 1001 | PEEL    |      0.12 | LONDON    |
+| 1002 | SERRES  |      0.13 | SAN JOSE  |
+| 1003 | AXELROD |      0.10 | NEW YORK  |
+| 1004 | MOTIKA  |      0.11 | LONDON    |
+| 1005 | FRAN    |      0.26 | LONDON    |
+| 1007 | RIFKIN  |      0.15 | BARCELONA |
++------+---------+-----------+-----------+
+6 rows in set (0.00 sec)
+
+------------------------------------------------------------------------------------
+
+Q.35
+mysql> SELECT CNAME
+    ->  FROM CUSTOMERS WHERE CNAME BETWEEN 'A' AND 'G~';
++----------+
+| CNAME    |
++----------+
+| GIOVANNI |
+| GRASS    |
+| CLEMENS  |
+| CISNEROS |
++----------+
+4 rows in set (0.00 sec)
+
+---------------------------------------------------------------
+Q.47
+
+mysql> SELECT SNAME
+    -> FROM SALESPEOPLE
+    -> WHERE ( CITY = 'BARCELONA' OR CITY='LONDON');
++--------+
+| SNAME  |
++--------+
+| PEEL   |
+| MOTIKA |
+| FRAN   |
+| RIFKIN |
++--------+
+4 rows in set (0.00 sec)
+
+--------------------------------------------------------------
+Q.50
+
+
+mysql> SELECT ONUM
+    -> FROM ORDERS
+    -> WHERE AMT>1000;
++------+
+| ONUM |
++------+
+| 3002 |
+| 3005 |
+| 3006 |
+| 3008 |
+| 3009 |
+| 3010 |
+| 3011 |
++------+
+7 rows in set (0.00 sec)
+
+mysql>
+
+---------------------------------------------------------------
+Q.58
+mysql> SELECT *
+    -> FROM CUSTOMERS
+    -> WHERE SNUM=1001;
++------+---------+--------+--------+------+
+| cnum | cname   | city   | rating | snum |
++------+---------+--------+--------+------+
+| 2001 | HOFFMAN | LONDON |    100 | 1001 |
+| 2006 | CLEMENS | LONDON |    100 | 1001 |
++------+---------+--------+--------+------+
+2 rows in set (0.00 sec)
+
+----------------------------------------------------------------------
+Q.62
+
+
+mysql> SELECT SNAME,COMM AS COMMISION
+    -> FROM SALESPEOPLE;
++---------+-----------+
+| SNAME   | COMMISION |
++---------+-----------+
+| PEEL    |      0.12 |
+| SERRES  |      0.13 |
+| AXELROD |      0.10 |
+| MOTIKA  |      0.11 |
+| FRAN    |      0.26 |
+| RIFKIN  |      0.15 |
++---------+-----------+
+6 rows in set (0.00 sec)
+
+
+------------------------------------------------------------------
+Q.66
+
+mysql> SELECT SUM(AMT)
+    -> FROM ORDERS;
++----------+
+| SUM(AMT) |
++----------+
+| 26658.40 |
++----------+
+1 row in set (0.00 sec)
+
+-------------------------------------------------------
+Q67
+
+mysql> SELECT ONUM,AMT,ODATE
+    -> FROM ORDERS;
++------+---------+------------+
+| ONUM | AMT     | ODATE      |
++------+---------+------------+
+| 3001 |   18.69 | 1996-03-10 |
+| 3002 | 1900.10 | 1996-03-10 |
+| 3003 |  767.19 | 1996-03-10 |
+| 3005 | 5160.45 | 1996-03-10 |
+| 3006 | 1098.16 | 1996-03-10 |
+| 3007 |   75.75 | 1996-04-10 |
+| 3008 | 4723.00 | 1996-05-10 |
+| 3009 | 1713.23 | 1996-04-10 |
+| 3010 | 1309.95 | 1996-06-10 |
+| 3011 | 9891.88 | 1996-06-10 |
++------+---------+------------+
+10 rows in set (0.00 sec)
+
+-------------------------------------------------------------
+Q.68
+
+mysql> SELECT COUNT(*) AS NUMBER_OF_NONNULL
+    -> FROM CUSTOMERS;
++-------------------+
+| NUMBER_OF_NONNULL |
++-------------------+
+|                 7 |
++-------------------+
+
+------------------------------------------------------------
+Q.73
+
+mysql> SELECT CNAME
+    -> FROM CUSTOMERS
+    -> WHERE SNUM=ANY
+    -> (SELECT SNUM
+    -> FROM SALESPEOPLE
+    -> WHERE (SNAME='PEEL' OR SNAME='MOTIKA')
+    -> );
++---------+
+| CNAME   |
++---------+
+| HOFFMAN |
+| CLEMENS |
+| PEREIRA |
++---------+
+3 rows in set (0.00 sec)
+
+----------------------------------------------------------------------
+Q.79
+
+
+mysql> SELECT CNAME
+    -> FROM CUSTOMERS
+    -> WHERE CNAME LIKE 'C%';
++----------+
+| CNAME    |
++----------+
+| CLEMENS  |
+| CISNEROS |
++----------+
+2 rows in set (0.00 sec)
+
+-------------------------------------------------------------------------------
+Q.83
+
+mysql> SELECT avg(comm) as commision
+    -> FROM SALESPEOPLE
+    -> WHERE CITY='LONDON';
++-----------+
+| commision |
++-----------+
+|  0.163333 |
++-----------+
+1 row in set (0.00 sec)
+
+------------------------------------------------------------------------
+Q.85
+
+
+mysql> SELECT SNAME
+    -> FROM SALESPEOPLE
+    -> WHERE COMM BETWEEN .10 AND .12;
++---------+
+| SNAME   |
++---------+
+| PEEL    |
+| AXELROD |
+| MOTIKA  |
++---------+
+3 rows in set (0.00 sec)
+
+------------------------------------------------------------------------------
+Q.86
+mysql> SELECT SNAME,CITY
+    -> FROM SALESPEOPLE
+    -> WHERE ( CITY='LONDON' AND  COMM>.10);
++--------+--------+
+| SNAME  | CITY   |
++--------+--------+
+| PEEL   | LONDON |
+| MOTIKA | LONDON |
+| FRAN   | LONDON |
++--------+--------+
+3 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------
+Q.91
+
+mysql> SELECT AVG(AMT) AS AVERAGE_AMT
+    -> FROM ORDERS;
++-------------+
+| AVERAGE_AMT |
++-------------+
+| 2665.840000 |
++-------------+
+1 row in set (0.00 sec)
+
+----------------------------------------------------------------------------------
+Q.93  DOUBT
+
+mysql> SELECT CNAME
+    -> FROM CUSTOMERS
+    -> WHERE NOT(CITY='SAN JOSE' AND RATING >200);
++----------+
+| CNAME    |
++----------+
+| HOFFMAN  |
+| GIOVANNI |
+| LIU      |
+| GRASS    |
+| CLEMENS  |
+| PEREIRA  |
++----------+
+6 rows in set (0.00 sec)
+
